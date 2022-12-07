@@ -6,19 +6,18 @@
 %}
 
 %%
-[ ] { return SPACE;}
+"inicial" { return INICIAL;}
+"final" { return FINAL;}
+"estados" { return ESTADOS;}
+"alfabeto" { return ALFABETO;}
+"palabra" {return PALABRA;}
+"transiciones" {return TRANSICION;}
+"iniciar"   {return START;}
+(,*[A-Za-z0-9]+)+ { yylval.sval = strdup(yytext);return ENTRADA;}
+\n	{ return FINLINEA; }
 
-[A-Za-z0-9]+ { yylval.sval = strdup(yytext);return EJEC;}
-"alfabeto"  { return ALFABETO;}
-"estados"   { return ESTADOS;}
-"inicial"   { return INICIAL;}
-"final"     { return FINAL;}
-"palabra"   { return PALABRA;}
-"transicion" { return TRANSICION;}
-"iniciar"   { return INICIAR;}
-\n			  { return FINLINEA; }
-[ \t]	; // Ignora espacios en blanco
-.			  { printf("No. %c\n", *yytext); }
+[ \t]   { /*ignoramos en este caso*/ } 
+. 	{ printf("OTRO CARACTER %s \n", *yytext); }
 %%
 
 

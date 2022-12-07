@@ -121,40 +121,43 @@ void transi(){
 
 //TOKENS
 
-%token ALFABETO
-%token ESTADOS
-%token INICIAL
-%token FINAL
-%token PALABRA
-%token TRANSICION
-%token FINLINEA INICIAR
-%token SPACE
-%token <sval> EJEC
-%type<sval> exp
-%start input
-//string alfabeto = "" , estados = "" , estadoInicial = "" , estadoFinal ="" , palabra = "";
-
-//REGLAS DE TRADUCCIÓN
+%token FINLINEA INICIAL FINAL ESTADOS PALABRA ALFABETO TRANSICION START
+%token <sval> ENTRADA
 %%
-input   : /*vacio*/
+
+input   : /* empty string */
         | input linea
         ;
+
 linea   : FINLINEA
-        | exp FINLINEA
+        | func FINLINEA
         ;
 
-exp     : EJEC
-        | ALFABETO exp {alfabeto=$2; cout<<"Estados: "<<alfabeto<<endl;}
-        | ESTADOS  exp {alfabeto=$2; cout<<"Estados: "<<alfabeto<<endl;}
-        | INICIAL exp  { estadoInicial = $2; cout<<"Estado Inicial: "<<estadoInicial<<endl; }
-        | FINAL   exp  { estadoFinal = $2; cout<<"Estado Final: "<<estadoFinal<<endl;}
-        | PALABRA  exp { palabra = $2; cout<<"Palabra: "<<palabra<<endl;}
-        | TRANSICION exp{transicion = $2; cout<<"Transiciones: "<<transicion<<endl;transi()}
-        | lis
+func    : ALFABETO cre_alfabeto
+        | INICIAL nodo_inicial
+        | FINAL nodo_final
+        | ESTADOS cre_estados
+        | PALABRA cre_palabra
+        | TRANSICION tran
+        | start
         ;
 
-lis     : INICIAR { automata(estados, alfabeto, estadoInicial, estadoFinal, palabra, transit, cantidadTransiciones);}
-        ;
+
+nodo_final  : ENTRADA  { estadoFinal = $1;cout << "estado final  : " << estadoFinal<<endl;}
+            ;
+nodo_inicial : ENTRADA { estadoInicial =$1;cout << "estado incial : " <<estadoInicial<< endl;}
+             ;
+cre_alfabeto : ENTRADA { alfabeto = $1; cout << "Alfabeto: " << alfabeto << endl;}
+            ;
+cre_estados : ENTRADA { estados = $1; cout << "Estados: "<<estados<<endl;}
+            ;
+cre_palabra : ENTRADA { palabra = $1; cout << "Palabra: " << palabra << endl;}
+;
+tran        : ENTRADA { transicion = $1; cout << "Transicion: "<< transicion << endl; transi()}
+;
+start       : START {automata(estados,alfabeto,estadoInicial,estadoFinal,palabra,transit,cantidadTransiciones);}
+;
+//(string estados, string alfabeto, string estadoInicial, string estadoFinal, string palabra, string *transit, int cantidadTransiciones)
 %%
 
 
