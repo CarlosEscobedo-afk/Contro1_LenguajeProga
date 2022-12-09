@@ -100,12 +100,6 @@ void transi(){
     //A�adir transiciones al puntero:
 	for (int j = 0; j < cantidadTransiciones; j++){
 		transit[j] = strings[j+1];
-		/*
-		//Intento de limpiar las transiciones:
-		char ch = ';';
-		transit[j].erase(remove(transit[j].begin(), transit[j].end(),ch), transit[j].end());
-		cout << "TRANSICIONES   " << transit[j] << endl;
-		*/
 	}
 
     

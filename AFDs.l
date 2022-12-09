@@ -1,6 +1,5 @@
 %option noyywrap
 %{
-//INCLUDE DEL SCANNER
 #include "AFDs.tab.h"
 
 %}
@@ -20,16 +19,3 @@
 . 	{ printf("OTRO CARACTER %s \n", *yytext); }
 %%
 
-
-
-/*
-string alfabeto = "" , estados = "" , estadoInicial = "" , estadoFinal ="" , palabra = "";
-{numeros}	  { yylval = atoi(yytext); return ENTERO; }
-{palabras}	  { sscanf(yytext, "%s", yylval.cad); return CADENA; }
-
-"{"letra_numero"}"	  { return ALFABETO }
-{estado}	  { return ESTADO }
-"transicion{{"[[a-zA-Z0-9]+","|[a-zA-Z0-9]+]+"}}"  { return TRANSICION }
-"{"			  { return LLAVE }
-","			  { return COMMA }
-*/
