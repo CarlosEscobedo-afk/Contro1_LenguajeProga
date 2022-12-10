@@ -14,11 +14,10 @@ extern FILE* yyin;
 void yyerror(const char* s);
 
 //Variables Globales:
-string *transit = NULL;
-int cantidadTransiciones = 3;
+int cantidadTransiciones;
 string alfabeto = "" , estados = "", transicion = "" , estadoInicial = "" , estadoFinal = "" , palabra = "";
-#define max 8
-string strings[max];
+char seperator = ';';
+
 
 //Longitud de String para Split:
 int len(string str){  
@@ -30,37 +29,43 @@ int len(string str){
 }
 
 //Funci�n para realizar un Split en un String:
-void split (string str, char seperator){  
+string * split (){  
+    string strings[cantidadTransiciones];
     int currIndex = 0, i = 0;  
     int startIndex = 0, endIndex = 0;  
-    while (i <= len(str)){  
-        if (str[i] == seperator || i == len(str)){  
+    int largo= len(transicion);
+    while (i <= largo){  
+        if (transicion[i] == seperator || i == largo ){  
             endIndex = i;
             string subStr = "";
-            subStr.append(str, startIndex, endIndex - startIndex);
+            subStr.append(transicion, startIndex + 1, (endIndex - 1) - (startIndex + 1));
             strings[currIndex] = subStr;
+            cout<<"strings: "<<strings[currIndex]<<endl;
             currIndex += 1;
             startIndex = endIndex + 1;
         }
         i++;
     }
+    return strings;
 }
 
+
 //Automata gen�rico:
-void automata(string estados, string alfabeto, string estadoInicial, string estadoFinal, string palabra, string *transit, int cantidadTransiciones){
+void automata(){
     int estadoEjec = 0; // Estado en ejecucion
+    string* aux =split();
     string marcaEstado; // Indica el estado actual del DFA.
     int count = 0; // Contador para definir el final de la lectura de la palabra de ingreso.
 	
     // Aca se definen las transiciones.
-    for(int i=0; i <= palabra.length(); i++){
+    for(int i=0; i < palabra.length(); i++){
         for(int j=0; j < alfabeto.length(); j++){
             if(palabra[i] == alfabeto[j]){
         		for(int h=0; h < cantidadTransiciones; h++){
         			//Transicion de estado.
-        			if(transit[estadoEjec][3] == alfabeto[j]){
+        			if(aux[estadoEjec][3] == palabra[i]){
 						ostringstream ss;
-					    ss << transit[estadoEjec][5] << transit[estadoEjec][6];
+					    ss << aux[estadoEjec][5] << aux[estadoEjec][6];
 					    string s = ss.str();
 						marcaEstado = s;
 			        	estadoEjec++;
@@ -72,6 +77,7 @@ void automata(string estados, string alfabeto, string estadoInicial, string esta
 				}
             }
         }
+        
         //Verificar si el estado de llegada es valido:
         if(count == palabra.length()){
 		    if(estadoFinal == marcaEstado){
@@ -83,40 +89,24 @@ void automata(string estados, string alfabeto, string estadoInicial, string esta
 		}
 		count++;
     }
-    delete [] transit;
+
 }
 
-//Main
-
-void transi(){
-
-	//Definiciones para el Aut�mata:
-    
-    //Separar transiciones:
-	transit = new string[cantidadTransiciones];
-	char seperator = '};{';
-    split(transicion, seperator);
-    
-    //A�adir transiciones al puntero:
-	for (int j = 0; j < cantidadTransiciones; j++){
-		transit[j] = strings[j+1];
-	}
-
-    
-    
-}
 
 %}
 
 %union{
     char *sval;
+    int ival;
 }
 
 
 //TOKENS
 
-%token FINLINEA INICIAL FINAL ESTADOS PALABRA ALFABETO TRANSICION START
+%token FINLINEA INICIAL FINAL ESTADOS PALABRA ALFABETO TRANSICION START CANTIDAD SEMICOLON
 %token <sval> ENTRADA
+%token <ival> NUM
+%start input
 %%
 
 input   : /* empty string */
@@ -133,6 +123,7 @@ func    : ALFABETO cre_alfabeto
         | ESTADOS cre_estados
         | PALABRA cre_palabra
         | TRANSICION tran
+        | CANTIDAD cant
         | start
         ;
 
@@ -147,9 +138,12 @@ cre_estados : ENTRADA { estados = $1; cout << "Estados: "<<estados<<endl;}
             ;
 cre_palabra : ENTRADA { palabra = $1; cout << "Palabra: " << palabra << endl;}
 ;
-tran        : ENTRADA { transicion = $1; cout << "Transicion: "<< transicion << endl; transi()}
+tran        : ENTRADA { transicion = $1; cout << "Transicion: "<< transicion << endl;}
+            | tran SEMICOLON tran
 ;
-start       : START {automata(estados,alfabeto,estadoInicial,estadoFinal,palabra,transit,cantidadTransiciones);}
+cant        : NUM { cantidadTransiciones = $1; cout << "Cantidad de transciones: "<< cantidadTransiciones<<endl;}
+;
+start       : START {automata(); }
 ;
 //(string estados, string alfabeto, string estadoInicial, string estadoFinal, string palabra, string *transit, int cantidadTransiciones)
 %%
