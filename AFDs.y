@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <cstring>
 #include <sstream>
+#include <vector>
 using namespace std;
 extern int yylex();
 extern int yyparse();
@@ -15,9 +16,11 @@ void yyerror(const char* s);
 
 //Variables Globales:
 int cantidadTransiciones;
+int contAux=0;
 string alfabeto = "" , estados = "", transicion = "" , estadoInicial = "" , estadoFinal = "" , palabra = "";
 char seperator = ';';
-
+vector<string> arregloEntrada;
+//string arregloEntrada[3];
 
 //Longitud de String para Split:
 int len(string str){  
@@ -30,7 +33,6 @@ int len(string str){
 
 //Funci�n para realizar un Split en un String:
 string * split (){  
-    string strings[cantidadTransiciones];
     int currIndex = 0, i = 0;  
     int startIndex = 0, endIndex = 0;  
     int largo= len(transicion);
@@ -39,14 +41,14 @@ string * split (){
             endIndex = i;
             string subStr = "";
             subStr.append(transicion, startIndex + 1, (endIndex - 1) - (startIndex + 1));
-            strings[currIndex] = subStr;
-            cout<<"strings: "<<strings[currIndex]<<endl;
+            arregloEntrada[currIndex] = subStr;
+            cout<<"arregloEntrada: "<<arregloEntrada[currIndex]<<endl;
             currIndex += 1;
             startIndex = endIndex + 1;
         }
         i++;
     }
-    return strings;
+    return arregloEntrada;
 }
 
 
@@ -138,14 +140,26 @@ cre_estados : ENTRADA { estados = $1; cout << "Estados: "<<estados<<endl;}
             ;
 cre_palabra : ENTRADA { palabra = $1; cout << "Palabra: " << palabra << endl;}
 ;
-tran        : ENTRADA { transicion = $1; cout << "Transicion: "<< transicion << endl;}
+tran        : ENTRADA   {   arregloEntrada.resize(cantidadTransiciones);
+                            while(contAux<cantidadTransiciones)
+                            {
+                                if(arregloEntrada[contAux]!=$1)
+                                {
+                                    arregloEntrada[contAux]=$1;
+                                    cout << "Transicion "<<contAux<<": "<< arregloEntrada[contAux] << endl;
+                                    contAux++;
+                                    break;
+                                }
+                                
+                            }
+                            
+                        }
             | tran SEMICOLON tran
 ;
 cant        : NUM { cantidadTransiciones = $1; cout << "Cantidad de transciones: "<< cantidadTransiciones<<endl;}
 ;
 start       : START {automata(); }
 ;
-//(string estados, string alfabeto, string estadoInicial, string estadoFinal, string palabra, string *transit, int cantidadTransiciones)
 %%
 
 
