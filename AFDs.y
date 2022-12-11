@@ -137,15 +137,15 @@ func    : ALFABETO cre_alfabeto
         ;
 
 
-nodo_final  : ENTRADA  { estadoFinal = $1;cout << "estado final  : " << estadoFinal<<endl;}
+nodo_final  : ENTRADA  { estadoFinal = $1}
             ;
-nodo_inicial : ENTRADA { estadoInicial =$1;cout << "estado incial : " <<estadoInicial<< endl;}
+nodo_inicial : ENTRADA { estadoInicial =$1}
              ;
-cre_alfabeto : ENTRADA { alfabeto = $1; cout << "Alfabeto: " << alfabeto << endl;}
+cre_alfabeto : ENTRADA { alfabeto = $1}
             ;
-cre_estados : ENTRADA { estados = $1; cout << "Estados: "<<estados<<endl;}
+cre_estados : ENTRADA { estados = $1;}
             ;
-cre_palabra : ENTRADA { palabra = $1; cout << "Palabra: " << palabra << endl;}
+cre_palabra : ENTRADA { palabra = $1;}
 ;
 tran        : ENTRADA   {   arregloEntrada.resize(cantidadTransiciones);
                             while(contAux<cantidadTransiciones)
@@ -153,7 +153,6 @@ tran        : ENTRADA   {   arregloEntrada.resize(cantidadTransiciones);
                                 if(arregloEntrada[contAux]!=$1)
                                 {
                                     arregloEntrada[contAux]=$1;
-                                    cout << "Transicion "<<contAux<<": "<< arregloEntrada[contAux] << endl;
                                     contAux++;
                                     break;
                                 }
@@ -163,7 +162,7 @@ tran        : ENTRADA   {   arregloEntrada.resize(cantidadTransiciones);
                         }
             | tran SEMICOLON tran
 ;
-cant        : NUM { cantidadTransiciones = $1; cout << "Cantidad de transciones: "<< cantidadTransiciones<<endl;}
+cant        : NUM { cantidadTransiciones = $1;}
 ;
 start       : START {automata(); }
 ;
