@@ -1,0 +1,8 @@
+cantidad 4
+transiciones q1,a,q2;q2,b,q2;q2,c,q3;q3,a,q3 
+inicial q1
+final q3
+alfabeto a,b,c
+estados q1,q2,q3
+palabra abbbcaaa
+iniciar
