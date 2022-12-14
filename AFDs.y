@@ -113,6 +113,7 @@ void automata(){
 //TOKENS
 
 %token FINLINEA INICIAL FINAL ESTADOS PALABRA ALFABETO TRANSICION START CANTIDAD SEMICOLON
+%token MOSTRARI MOSTRARF MOSTRARE MOSTRARA MOSTRARP MOSTRART MOSTRARC
 %token <sval> ENTRADA
 %token <ival> NUM
 %start input
@@ -133,10 +134,66 @@ func    : ALFABETO cre_alfabeto
         | PALABRA cre_palabra
         | TRANSICION tran
         | CANTIDAD cant
+        | mostrara
+        | mostrari
+        | mostrarc
+        | mostrare
+        | mostrarf
+        | mostrarp
+        | mostrart
         | start
         ;
 
+mostrara    : MOSTRARA  {   int i = 0;
+                            if (alfabeto != ""){
+                                for (char c : alfabeto){
+	                                if (c == ','){
+	                                    i++;
+                                    }else{
+	                                    cout << c << endl;
+	                                    i++;
+	                                }
+	                            }
+                            }else{
+                                cout << "Ingrese un alfabeto" << endl;
+                            }
+                        }
+;
+mostrari    : MOSTRARI  {cout<<"Nodo inicial: "<<estadoInicial<<endl;}
+;
+mostrarc    : MOSTRARC  {   cout<<"Cantidad de transiciones: "<<cantidadTransiciones<<endl;}
+;
+mostrare    : MOSTRARE  {   int i = 0;
+                            string pali="",ayuda="";
+                            if (estados != ""){
+                                for (char c : estados){
+                                    if (c == ','){
+                                        cout << pali << endl;
+                                        pali="";
+                                    }else{
+                                        ayuda=c;
+                                        pali = pali.append(ayuda);
+                                    }
+                                }
+                                cout << pali << endl;
+                            }else{
+                                cout << "Ingrese un conjunto de estados" << endl;
+                            }
+                        }
+mostrarf    : MOSTRARF {cout<<"Nodo Final: "<<estadoFinal<<endl;}
+;
+mostrart    : MOSTRART  {   if(arregloEntrada.size()!=0){
+                                for(int i=0;i<arregloEntrada.size();i++){
+                                    cout<< arregloEntrada[i] << endl;
+                                }
+                            }else{
+                                cout<< "Ingrese transicion" << endl;
+                            }
 
+                        }
+;
+mostrarp    : MOSTRARP  {   cout<<"La palabra ingresada es: "<<palabra<<endl;}
+;
 nodo_final  : ENTRADA  { estadoFinal = $1}
             ;
 nodo_inicial : ENTRADA { estadoInicial =$1}
@@ -166,6 +223,7 @@ cant        : NUM { cantidadTransiciones = $1;}
 ;
 start       : START {automata(); }
 ;
+
 %%
 
 

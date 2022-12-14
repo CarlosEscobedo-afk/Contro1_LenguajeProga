@@ -13,6 +13,15 @@
 "transiciones" {return TRANSICION;}
 "iniciar"   {return START;}
 "cantidad" {return CANTIDAD;}
+"mostrari" {return MOSTRARI;}
+"mostrarf" {return MOSTRARF;}
+"mostrare" {return MOSTRARE;}
+"mostrara" {return MOSTRARA;}
+"mostrarp" {return MOSTRARP;}
+"mostrart" {return MOSTRART;}
+"mostrarc" {return MOSTRARC;}
+
+
 ";"           {return SEMICOLON;}
 [0-9]+		{yylval.ival = atoi(yytext); return NUM;}
 (,*[A-Za-z0-9]+)+ { yylval.sval = strdup(yytext);return ENTRADA;}
