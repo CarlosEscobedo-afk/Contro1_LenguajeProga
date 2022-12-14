@@ -13,7 +13,14 @@
 "transiciones" { return TRANSICION; }
 "iniciar"   { return START; }
 "cantidad" { return CANTIDAD; }
-"mostrar" { return MOSTRAR; }
+"mostrari" { return MOSTRAR; }
+"mostrarf" { return MOSTRAR; }
+"mostrare" { return MOSTRAR; }
+"mostrara" { return MOSTRAR; }
+"mostrarp" { return MOSTRAR; }
+"mostrart" { return MOSTRAR; }
+"mostrarc" { return MOSTRAR; }
+
 ";"           {return SEMICOLON;}
 [0-9]+		{yylval.ival = atoi(yytext); return NUM;}
 (,*[A-Za-z0-9]+)+ { yylval.sval = strdup(yytext);return ENTRADA;}
