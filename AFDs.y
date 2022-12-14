@@ -142,6 +142,7 @@ func    : ALFABETO cre_alfabeto
         | mostrarp
         | mostrart
         | start
+        | mostrar
         ;
 
 mostrara    : MOSTRARA  {   int i = 0;
@@ -196,7 +197,7 @@ mostrarp    : MOSTRARP  {   cout<<"La palabra ingresada es: "<<palabra<<endl;}
 ;
 nodo_final  : ENTRADA  { estadoFinal = $1}
             ;
-nodo_inicial : ENTRADA { estadoInicial =$1}
+nodo_inicial : ENTRADA { estadoInicial = $1}
              ;
 cre_alfabeto : ENTRADA { alfabeto = $1}
             ;
@@ -204,6 +205,7 @@ cre_estados : ENTRADA { estados = $1;}
             ;
 cre_palabra : ENTRADA { palabra = $1;}
 ;
+
 tran        : ENTRADA   {   arregloEntrada.resize(cantidadTransiciones);
                             while(contAux<cantidadTransiciones)
                             {
@@ -213,15 +215,27 @@ tran        : ENTRADA   {   arregloEntrada.resize(cantidadTransiciones);
                                     contAux++;
                                     break;
                                 }
-                                
                             }
-                            
                         }
             | tran SEMICOLON tran
 ;
+
 cant        : NUM { cantidadTransiciones = $1;}
 ;
-start       : START {automata(); }
+start       : START {automata();}
+;
+
+
+mostrar : MOSTRAR {   cout<< "Nodo inicial: " <<estadoInicial<<endl;
+                        cout<< "Nodo Final: " <<estadoFinal<<endl;
+                        cout<< "Alfabeto: " <<alfabeto<<endl;
+                        cout<< "Estados: " <<estados<<endl;
+                        cout<< "Palabra: " <<palabra<<endl;
+                        cout<< "Cantidad de transiciones: " <<cantidadTransiciones<<endl;
+                        for (int i=0;i<cantidadTransiciones;i++){
+                            cout<< "Transicion " <<i+1<<" : "<<arregloEntrada[i]<<endl;
+                        }                        
+                        }
 ;
 
 %%
