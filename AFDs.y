@@ -142,7 +142,6 @@ func    : ALFABETO cre_alfabeto
         | mostrarp
         | mostrart
         | start
-        | mostrar
         ;
 
 mostrara    : MOSTRARA  {   int i = 0;
@@ -225,18 +224,6 @@ cant        : NUM { cantidadTransiciones = $1;}
 start       : START {automata();}
 ;
 
-
-mostrar : MOSTRAR {   cout<< "Nodo inicial: " <<estadoInicial<<endl;
-                        cout<< "Nodo Final: " <<estadoFinal<<endl;
-                        cout<< "Alfabeto: " <<alfabeto<<endl;
-                        cout<< "Estados: " <<estados<<endl;
-                        cout<< "Palabra: " <<palabra<<endl;
-                        cout<< "Cantidad de transiciones: " <<cantidadTransiciones<<endl;
-                        for (int i=0;i<cantidadTransiciones;i++){
-                            cout<< "Transicion " <<i+1<<" : "<<arregloEntrada[i]<<endl;
-                        }                        
-                        }
-;
 
 %%
 
