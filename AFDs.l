@@ -9,10 +9,11 @@
 "final" { return FINAL;}
 "estados" { return ESTADOS;}
 "alfabeto" { return ALFABETO;}
-"palabra" {return PALABRA;}
-"transiciones" {return TRANSICION;}
-"iniciar"   {return START;}
-"cantidad" {return CANTIDAD;}
+"palabra" { return PALABRA; }
+"transiciones" { return TRANSICION; }
+"iniciar"   { return START; }
+"cantidad" { return CANTIDAD; }
+"mostrar" { return MOSTRAR; }
 ";"           {return SEMICOLON;}
 [0-9]+		{yylval.ival = atoi(yytext); return NUM;}
 (,*[A-Za-z0-9]+)+ { yylval.sval = strdup(yytext);return ENTRADA;}
